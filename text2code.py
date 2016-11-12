@@ -84,7 +84,7 @@ def text2arr(s):
 
 #error dictionary
 errors = {
-
+    ("its",):("if")
 }
 
 def fixtxterror(arr):
@@ -92,6 +92,7 @@ def fixtxterror(arr):
     for p in phrases:
         if p in errors:
             arr = replsub(arr,p,errors[p])
+    arr = [elem.replace("'","") for elem in arr]
     return arr
 
 #returns tuple of sublists of len at most n
