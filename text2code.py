@@ -1,8 +1,30 @@
 
 #text to code stuff here
+func_params = {'with','parameter','parameters','param','params',
+               'args','arg','arguments','argument','of'}
+func_body = {'with','a','the','body','of','to','be'}
+func_and = {'and','also','then'}
 def def_func(arr):
-    print()
-    #nothing here yet
+    code = '(define ('
+    i = 0
+    code += arr[i]
+    i+=1
+    while arr[i] in func_params:
+        i+=1
+    while arr[i] not in func_body:
+        code += ' '+arr[i]
+        i+=1
+        while arr[i] in func_and:
+            i+=1
+    code += ")\n"
+    while arr[i] in func_body:
+        i+=1
+    while arr[i] != 'stop':
+        n_exp = expression(arr[i:])
+        code += n_exp[0]+"\n"
+        i += n_exp[1]
+    return (code+')', i+1)
+
 def def_var(arr):
     print()
     #nothing here yet
@@ -61,11 +83,15 @@ def expression(arr):
     res = expr_start_tree
     while isinstance(res, dict):
         #print('e',arr,i)
-        res = res[arr[i]]
+        if arr[i] in res:
+            res = res[arr[i]]
+        else:
+            return (arr[i],i+1)
         i += 1
     if isinstance(res, str):
-        return (res,1)
-    return res(arr[i:])
+        return (res,i)
+    n_res = res(arr[i:])
+    return (n_res[0], n_res[1]+i)
 
 #text to array
 def text2arr(s):
