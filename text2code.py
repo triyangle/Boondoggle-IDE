@@ -31,10 +31,13 @@ def call(arr):
 def skip(d, *strs):
     for s in strs:
         d[s]=d
-
 def all_same(d, val, *keys):
     for k in keys:
         d[k] = val
+def identity(d, *vals):
+    for val in vals:
+        d[val]=val
+
 def_tree = {
     'function': def_func,
     'variable': def_var
@@ -44,12 +47,14 @@ skip(def_tree, 'a', 'an', 'the')
 expr_start_tree = {
     'define': def_tree,     #dict
     'call': call,           #handler
-    'one': '1',
-    '1': '1',
-    'zero': '0',
-    '0': '0',
+    'calling': call,        #handler
+    'one': '1',             #literal
+    'zero': '0'             #literal
 }
-all_same(expr_start_tree,'+','plus','add','+')
+skip(expr_start_tree,'the','result','of')
+all_same(expr_start_tree,'+','plus','add')
+identity(expr_start_tree,'+','0','1')
+
 
 def expression(arr):
     i = 0
@@ -61,4 +66,6 @@ def expression(arr):
     if isinstance(res, str):
         return (res,1)
     return res(arr[i:])
-    
+
+def expr(string):
+    return expression(string.split())
