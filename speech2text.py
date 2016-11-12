@@ -24,7 +24,7 @@ class Speech2Text:
             raw_result =  self.r.recognize_google(self.audio, show_all=True)
             print("Google Speech Recognition thinks you said " + str(raw_result))
             #        gui(convert_to_code(raw_result))
-            =======
+
             self.raw_result =  self.r.recognize_google(self.audio)
             print("Google Speech Recognition thinks you said " + self.raw_result)
             word_array = text2arr(raw_result)
