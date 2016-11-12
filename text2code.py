@@ -108,6 +108,3 @@ def replsub(arr,sub,new):
         if arr[i:i+len(sub)] == list(sub):
             arr = arr[:i] + list(new) + arr[i+len(sub):]
     return arr
-
-
-def str_to_output(str):
