@@ -1,9 +1,12 @@
 #text to code stuff here
 def def_func(arr):
+    print()
     #nothing here yet
 def def_var(arr):
+    print()
     #nothing here yet
 def call(arr):
+    print()
     #nothing here yet
 
 def skip(d, *strs):
@@ -16,9 +19,9 @@ def_tree = {
 }
 skip(def_tree, 'a', 'an', 'the')
 
-start_tree = {
-    'define': def_tree,
-    'call': call,
+expr_start_tree = {
+    'define': def_tree,     #dict
+    'call': call,           #handler
     'one': '1',
     '1': '1',
     'zero': '0',
@@ -27,7 +30,7 @@ start_tree = {
 
 def expression(arr):
     i = 0
-    res = start_tree
+    res = expr_start_tree
     try:
         while isinstance(res, dict):
             res = res[arr[i]]
