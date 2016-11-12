@@ -67,6 +67,17 @@ def detect_statement(arr):
     except IndexError as e:
         return arr
 
+def expression(arr):
+    i = 0
+    res = expr_start_tree
+    while isinstance(res, dict):
+        #print('e',arr,i)
+        res = res[arr[i]]
+        i += 1
+    if isinstance(res, str):
+        return (res,1)
+    return res(arr[i:])
+
 #text to array
 def text2arr(s):
     return s.split()
