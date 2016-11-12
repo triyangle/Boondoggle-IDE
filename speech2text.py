@@ -22,7 +22,6 @@ class Speech2Text:
             # instead of `r.recognize_google(audio)`
             self.raw_result =  self.r.recognize_google(self.audio)
             print("Google Speech Recognition thinks you said " + self.raw_result)
-            #        gui(convert_to_code(raw_result))
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
