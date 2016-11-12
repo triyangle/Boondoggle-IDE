@@ -109,5 +109,5 @@ def expression(arr):
         return (res,1)
     return res(arr[i:])
 
-def expr(string):
-    return expression(string.split())
+def convert_to_code(input_string):
+    return expression(fixtxterror(text2arr(input_string)))
