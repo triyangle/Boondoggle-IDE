@@ -3,6 +3,7 @@
 # NOTE: this example requires PyAudio because it uses the Microphone class
 
 import speech_recognition as sr
+from text2code import *
 
 # obtain audio from the microphone
 r = sr.Recognizer()
@@ -17,7 +18,9 @@ while True:
         # for testing purposes, we're just using the default API key
         # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
         # instead of `r.recognize_google(audio)`
-        print("Google Speech Recognition thinks you said " + r.recognize_google(audio, "fb88f4a31976b439dbac00db1ba1c87ad910a9b3"))
+        raw_result =  r.recognize_google(audio)
+        print("Google Speech Recognition thinks you said " + raw_result)
+#        gui(convert_to_code(raw_result))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
