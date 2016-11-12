@@ -7,9 +7,6 @@ def def_var(arr):
     print()
     #nothing here yet
 
-call_the_func = {'the','a','function'}
-call_on = {'on','the','argument','arguments','parameter','parameters'}
-call_and = {'and', 'also', 'the', 'argument'}
 def call(arr):
     code = '('
     i = 0
@@ -39,6 +36,10 @@ def identity(d, *vals):
     for val in vals:
         d[val]=val
 
+call_the_func = {'the','a','function'}
+call_on = {'on','the','argument','arguments','parameter','parameters','by'}
+call_and = {'and', 'also', 'the', 'argument'}
+
 def_tree = {
     'function': def_func,
     'variable': def_var
@@ -54,7 +55,12 @@ expr_start_tree = {
 }
 skip(expr_start_tree,'the','result','of')
 all_same(expr_start_tree,'+','plus','add')
-identity(expr_start_tree,'+','0','1')
+identity(expr_start_tree,'+','0','1','2','3','4','5','6','7','8','9')
+all_same(expr_start_tree,'-','-','sub','subtract','minus','difference')
+all_same(expr_start_tree,'*','*','mul','multiply','times','product')
+all_same(expr_start_tree,'/','/','divide','quotient')
+all_same(expr_start_tree,'>','greater than','more than','>')
+
 
 def expression(arr):
     i = 0

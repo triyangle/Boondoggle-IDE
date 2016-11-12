@@ -20,9 +20,13 @@ class Speech2Text:
             # for testing purposes, we're just using the default API key
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
-            raw_result =  self.r.recognize_google(audio)
-            print("Google Speech Recognition thinks you said " + raw_result)
+            raw_result =  self.r.recognize_google(self.audio, show_all=True)
+            print("Google Speech Recognition thinks you said " + str(raw_result))
             #        gui(convert_to_code(raw_result))
+            word_array = text2arr(raw_result)
+            word_array = fixtxterror(word_array)
+            return expression(word_array)
+            
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
