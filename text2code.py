@@ -37,6 +37,7 @@ def all_same(d, val, *keys):
 def identity(d, *vals):
     for val in vals:
         d[val]=val
+
 def_tree = {
     'function': def_func,
     'variable': def_var
@@ -53,6 +54,8 @@ expr_start_tree = {
 skip(expr_start_tree,'the','result','of')
 all_same(expr_start_tree,'+','plus','add')
 identity(expr_start_tree,'+','0','1')
+
+
 def expression(arr):
     i = 0
     res = expr_start_tree
@@ -63,7 +66,6 @@ def expression(arr):
     if isinstance(res, str):
         return (res,1)
     return res(arr[i:])
-    
 
 def expr(string):
     return expression(string.split())
