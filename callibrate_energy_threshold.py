@@ -17,7 +17,7 @@ while True:
         # for testing purposes, we're just using the default API key
         # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
         # instead of `r.recognize_google(audio)`
-        print("Google Speech Recognition thinks you said " + r.recognize_google(audio, "fb88f4a31976b439dbac00db1ba1c87ad910a9b3"))
+        print("Google Speech Recognition thinks you said " + r.recognize_google(audio, "AIzaSyCFeldgQ8Pf-qv0dn-ztbpuZjUMC9i380w"))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
