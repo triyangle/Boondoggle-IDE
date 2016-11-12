@@ -1,15 +1,37 @@
 
 #text to code stuff here
+func_params = {'with','parameter','parameters','param','params',
+               'args','arg','arguments','argument','of'}
+func_body = {'with','a','the','body','of','to','be'}
+func_and = {'and','also','then'}
 def def_func(arr):
-    print()
-    #nothing here yet
+    code = '(define ('
+    i = 0
+    code += arr[i]
+    i+=1
+    while arr[i] in func_params:
+        i+=1
+    while arr[i] not in func_body:
+        code += ' '+arr[i]
+        i+=1
+        while arr[i] in func_and:
+            i+=1
+    code += ")\n"
+    while arr[i] in func_body:
+        i+=1
+    while arr[i] != 'stop':
+        n_exp = expression(arr[i:])
+        code += n_exp[0]+"\n"
+        i += n_exp[1]
+    return (code+')', i+1)
+    
 def def_var(arr):
     print()
     #nothing here yet
 
 call_the_func = {'the','a','function'}
 call_on = {'on','the','argument','arguments','parameter','parameters'}
-call_and = {'and', 'also', 'the', 'argument'}
+call_and = {'and', 'also', 'the', 'argument', 'by'}
 def call(arr):
     code = '('
     i = 0
@@ -54,18 +76,8 @@ expr_start_tree = {
 }
 skip(expr_start_tree,'the','result','of')
 all_same(expr_start_tree,'+','plus','add')
+all_same(expr_start_tree,'*','times','multiply','multiplying','mul')
 identity(expr_start_tree,'+','0','1')
-
-def detect_statement(arr):
-    i = 0
-    res = start_tree
-    try:
-        while not isinstance(res, str):
-            res = res[arr[i]]
-            i += 1
-        return res
-    except IndexError as e:
-        return arr
 
 def expression(arr):
     i = 0
@@ -109,3 +121,21 @@ def replsub(arr,sub,new):
         if arr[i:i+len(sub)] == list(sub):
             arr = arr[:i] + list(new) + arr[i+len(sub):]
     return arr
+
+def expression(arr):
+    i = 0
+    res = expr_start_tree
+    while isinstance(res, dict):
+        #print('e',arr,i)
+        if arr[i] in res:
+            res = res[arr[i]]
+        else:
+            return (arr[i],i+1)
+        i += 1
+    if isinstance(res, str):
+        return (res,i)
+    n_res = res(arr[i:])
+    return (n_res[0], n_res[1]+i)
+
+def convert_to_code(input_string):
+    return expression(fixtxterror(text2arr(input_string)))
