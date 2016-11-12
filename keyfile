@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "secret-sphinx-149310",
+  "private_key_id": "fbc38e9ea015f836a48f7a7498638b6934376516",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDRp2bK3UIe4wDO\nYbUHsRbN9NFOWiUMh9KWUaX32DbqpvfDLdgcRx3aBZ6MrVbz7Xeie2yZ4LOse6lE\n1D8inPyxBQ1qLV8CeBBzFwEho/Q8VjGuw0CgvuUDkfgXK8P0lvK6rMhnznyEis6c\na5qJsjEN+PFXrdnuiCXhOtqrC9pxUCGA9Tjou1ShbSut0ghJaAaB/0qOMzaWykM/\nSu2CkQX6XZpIYPN2Q3yhdw7SyZXiutrjviNvCm6JLJz3osRi8MFDfLjJtQm9x0Gj\nnkK+3Bf+RFosWMsEw7ETkN8pJsauVuehWoYGeZtQ+9gxtXMFHnYYlMwZUymbgFEp\nDKI7dJXLAgMBAAECggEAWR5BkaYvvxVbeF8MJrLeMLoKZrXm3ca2e3NFi277GQ/U\nbcEFBjAsvkp5NO9R8OpWWlkAtwBPH9iJAVr/Y2U7/LtbEnEq28/Rnjp/Hp+k6Cjz\ngYg55pp+mt/nh2HxL/0iPLvJjGa3g1fFr7QFwtZeB8R0QoMCCmURRQZRgTfOqS9T\neHuT8wRoY9CuIKku3rlaKiqzbg7iNB15zicyevuGT9O5VljCcFYITqdMV8OtXuzL\n7bUK6f+kg/4RtnuI83LCupPzAhvymS5KexRE3CYbWEHWiQ34ZqZ0sg2oSvg11t1/\nE76tWaMxlAbIE3e0u/S1mxABA3sdjg0hpKvlx6T5oQKBgQDzvp7iQmD/7dv+aFZi\nvK3TJpBJdaEW9S8b8pu13deKwS1o49fZSW7o7AivbLwfvXB7fl64tIFCa2T3GGfu\nwytePSa9OvexCMU3+4wAvoQFu0+ELCFJ2hXLvVaOcM8CDMdg8YxGM2a57wVtL6VE\n1O2Vku6vb4JxO59xBTmpnR/86QKBgQDcMfrFTcgTrL0aXZWHTIJk39iFeO24wVlz\nGP5jT2Qi2FlxYzFowNmR9NeQf1LLdICLvVyw7TOO/48+6H/tEQsBKb7uGooQFOHz\nhAX7M6+T+gSZB55ueDr/MPhxK+emND+5sfoEkWafOchu2NKqELaDoxhyUFh1GNG3\nOvLyQ3n8kwKBgGiFOk6d1kiI8AhlJ34JmKRt6fuGNIDKvNvIKhtPuOjoM5fB9EJZ\n6fR5mrPW9cjKjFx4cRfVV4Rq1w3aal8JVCSCJoWIrsQ8lY2PEZcUGzr1+oAcCF5J\n5YTLeT11hF9FqY2ZpuRHkGp046fRgZZFlGfKbQ3PzGjP/2wQqIxiM2BZAoGBAIIq\nFViPC0f+I+czDRJm+unQnTkBbF18BnmQe8iPBN3IUM9DWNDYt4SdXNRxP6s/mkGA\n1gtMnN7aWX5RiFXGbl/oopI0JAsvnQYLtFFzk0YBVLh1lYUuE4oJE8QqtQw99LG7\n8NTEcwqK6N4F1DpuGMYmImxo7HGEE2yiLz1g//p7AoGAKrYHPwGbXYLYq2rhZNH4\nWsue1TuXQMpDe6Gm8vmvCTIO8IBYIIPEFpebpOebku3ARDgWFpV+1BRnTCRwaBaG\nnsyR8iPk8Vi85vUtCwZOUYf8tqlH0wPIUVxnvMtvU4cfk09b7sO+duARFhQO+0hh\nOQ3LzOtCAMMj7HQ6+iqBWSo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "speech@secret-sphinx-149310.iam.gserviceaccount.com",
+  "client_id": "112434292524896504188",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speech%40secret-sphinx-149310.iam.gserviceaccount.com"
+}
