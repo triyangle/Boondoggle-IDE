@@ -1,11 +1,33 @@
 #text to code stuff here
 def def_func(arr):
+    print()
     #nothing here yet
 def def_var(arr):
-    #nothing here yet
-def call(arr):
+    print()
     #nothing here yet
 
+call_the_func = {'the','a','function'}
+call_replace = {'plus':'+','add':'+'}
+call_on = {'on','the','argument','arguments','parameter','parameters'}
+call_and = {'and', 'also', 'the', 'argument'}
+def call(arr):
+    code = '('
+    i = 0
+    while arr[i] in call_the_func:
+        i+=1
+    if arr[i] in call_replace:
+        code += call_replace[arr[i]]+' '
+    else:
+        code += arr[i]+' '
+    i+=1
+    while arr[i] in call_on:
+        i+=1
+    while arr[i] is not 'stop':
+        code += expression(arr[i:])
+        while arr[i] in call_and:
+            i+=1
+    return code +')'
+    
 
 def skip(d, *strs):
     for s in strs:
@@ -17,18 +39,24 @@ def_tree = {
 }
 skip(def_tree, 'a', 'an', 'the')
 
-start_tree = {
-    'define': def_tree,
-    'call': call
+expr_start_tree = {
+    'define': def_tree,     #dict
+    'call': call,           #handler
+    'one': '1',
+    '1': '1',
+    'zero': '0',
+    '0': '0'
 }
 
-def detect_statement(arr):
+def expression(arr):
     i = 0
-    res = start_tree
+    res = expr_start_tree
     try:
-        while not isinstance(res, str):
+        while isinstance(res, dict):
             res = res[arr[i]]
             i += 1
-        return res
+        if isinstance(res, str):
+            return res
+        return res(arr[i:])
     except IndexError as e:
         return arr
