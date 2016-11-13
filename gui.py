@@ -84,10 +84,13 @@ class Application(Frame):
         self.fileMenu.add_command(label="Save as", command=self.save_as)
         self.master.config(menu=self.menubar)
 
-        self.edit_button = Button(self.master, text="Edit", command=self.edit, font=self.myfont)
-        self.edit_button.grid(row=0, column=4)
+        self.convert_button = Button(self.master, text="Convert", command=self.convert, font=self.myfont)
+        self.convert_button.grid(row=0, column=4)
         self.text2 = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text2.grid(row=1, column=4)
+
+        self.status=Label(self.master, text="Status", bd=1, relief=SUNKEN, anchor=W)
+        self.status.grid(row=2,column=0,columnspan=4,sticky=W+E)
 
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
@@ -107,19 +110,22 @@ class Application(Frame):
         self.recording = not self.recording
         if self.recording:
             print("Starting thread")
+            self.record_button['text'] = "Done"
             self.s2t.Joe = True
             self.record_thread = threading.Thread(target=self.record)
             self.record_thread.daemon = True
             self.record_thread.start()
+            print("Started thread")
         else:
+            self.record_button['text'] = "Recording"
             self.s2t.Joe = False
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        if self.recording:
+        while self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
-                self.raw = self.s2t.result[0]
+                self.raw = self.s2t.result
             except MyException:
                 pass
         print("Ending thread")
@@ -132,7 +138,7 @@ class Application(Frame):
         #self.text.insert(INSERT, self.code)
         self.text2.insert(0.0, self.raw)
 
-    def edit(self):
+    def convert(self):
         self.raw = self.text2.get(0.0, END)
         self.code = convertstring(self.raw, self.autocorrect)
         self.text.insert(INSERT, self.code)
@@ -140,6 +146,7 @@ class Application(Frame):
     def clear(self):
         """Clears the textbox."""
         self.text.delete(0.0, END)
+        self.text2.delete(0.0, END)
 
     def correct(self):
         """Toggles autocorrection."""
@@ -209,8 +216,8 @@ class Application(Frame):
         self.record_toggle()
     def clear_event(self, event):
         self.clear()
-    def edit_event(self, event):
-        self.edit()
+    def convert_event(self, event):
+        self.convert()
     def autocorrect_event(self, event):
         self.autocorrect = not self.autocorrect
     def new_event(self, event):
@@ -226,11 +233,11 @@ def run():
     """Starts the program."""
     root = Tk()
     root.title("Boondoggle IDE")
-    root.geometry("1600x800")
+    root.geometry("800x800")
     app = Application(root)
     app.bind_all("<Control-r>", app.record_toggle_event)
     app.bind_all("<Control-c>", app.clear_event)
-    app.bind_all("<Control-e>", app.edit_event)
+    app.bind_all("<Control-e>", app.convert_event)
     app.bind_all("<Control-a>", app.autocorrect_event)
     app.bind_all("<Control-n>", app.new_event)
     app.bind_all("<Control-o>", app.open_event)
