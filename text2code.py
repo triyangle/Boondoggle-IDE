@@ -234,7 +234,7 @@ errors = {
     ("it's",): ("if",),
     ("weaving",): ("within",),
     ("-1",): ("- 1",),
-    ("X",): ("*",)
+    ("ii",): ("second",)
 }
 
 def fixtxterror(arr):
