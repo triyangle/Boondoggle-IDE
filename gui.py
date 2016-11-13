@@ -76,9 +76,6 @@ class Application(Frame):
 
         self.text.bind("<Tab>", tab)
 
-        def vim_v(arg):
-            self.text.anchor
-
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
