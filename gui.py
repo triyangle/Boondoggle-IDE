@@ -54,7 +54,7 @@ class Application(Frame):
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont, underline = 0)
         self.clear_button.grid(row=0, column=2, sticky=W)
 
-        self.text = Text(self.master, width=35, height = 5, font = self.myfont, wrap = WORD)
+        self.text = Text(self.master, width=45, height = 25, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 3, sticky=W)
 

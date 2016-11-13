@@ -40,7 +40,7 @@ class Speech2Text:
             self.result = self.result.lower()
             word_array = text2arr(self.result)
             word_array = fixtxterror(word_array)
-            return expression(word_array)
+            return expression(word_array)[0]
 
         except sr.UnknownValueError or MyException:
             print("Google Speech Recognition could not understand audio")
