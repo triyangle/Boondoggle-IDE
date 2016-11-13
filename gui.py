@@ -110,7 +110,7 @@ class Application(Frame):
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
         while self.recording:
-            self.code = self.s2t.process()
+            self.code = self.s2t.process()[0]
             self.create_top_widgets2()
             self.master.wait_window(self.confirm2)
             if self.good:
