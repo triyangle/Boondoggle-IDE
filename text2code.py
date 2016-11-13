@@ -67,6 +67,26 @@ def infix(arr):
         #print(code)
     return (code.strip() + ')',i)
 
+if_then = {'then'}
+if_else = {'else','otherwise'}
+def if_form(arr):
+    code = '(if '
+    i = 0
+    n_exp = expression(arr[i:])
+    code += n_exp[0]+'\n'
+    i += n_exp[1]
+    while arr[i] in if_then:
+        i+=1
+    n_exp = expression(arr[i:])
+    code += n_exp[0]+'\n'
+    i += n_exp[1]
+    while arr[i] in if_else:
+        i+=1
+    n_exp = expression(arr[i:])
+    code += n_exp[0]+'\n'
+    i += n_exp[1]
+    return (code+')', i)
+
 def skip(d, *strs):
     for s in strs:
         d[s]=d
@@ -114,6 +134,7 @@ expr_start_tree = {
     'call': call,           #handler
     'calling': call,        #handler
     'within': infix,        #handler
+    'if': if_form,          #handler
     'one': '1',             #literal
     'zero': '0'             #literal
 }
