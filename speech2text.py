@@ -31,7 +31,6 @@ class Speech2Text:
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
             raw_result =  self.r.recognize_google(audio, show_all=True)
-            print('allahu akbar!!!')
 
             #raw_result is now a list of dictionaries of results
             if not raw_result:
