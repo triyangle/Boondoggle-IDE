@@ -193,7 +193,8 @@ class Application(Frame):
     def save_as(self):
         """Saves the current file with a new name."""
         self.filename = filedialog.asksaveasfilename(initialdir="./", title="Save as...")
-        self.save()
+        if self.filename:
+            self.save()
 
     def destroy_save(self):
         """Saves the current file and destroys the popout menu."""
