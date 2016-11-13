@@ -89,9 +89,9 @@ class Application(Frame):
         """Creates the widgets for the popout menu."""
         self.confirm = Toplevel()
         self.prompt_label = Label(self.confirm, text="You have unsaved changes. Do you want to save?")
-        self.save_button = Button(self.confirm, text="Save", command=self.destroy_save)
-        self.dont_button = Button(self.confirm, text="Don't save", command=self.dont_save)
-        self.cancel_button = Button(self.confirm, text="Cancel", command=self.confirm.destroy)
+        self.save_button = Button(self.confirm, text="Save", command=self.destroy_save, underline=1)
+        self.dont_button = Button(self.confirm, text="Don't save", command=self.dont_save, underline=1)
+        self.cancel_button = Button(self.confirm, text="Cancel", command=self.confirm.destroy, underline=1)
 
         self.prompt_label.grid(row=0, column=0, columnspan=3, sticky=W)
         self.save_button.grid(row=1, column=0, sticky=W)
@@ -206,6 +206,16 @@ class Application(Frame):
         self.clear()
     def edit_event(self, event):
         self.edit()
+    def autocorrect_event(self, event):
+        self.autocorrect = not self.autocorrect
+    def new_event(self, event):
+        self.new()
+    def open_event(self, event):
+        self.open()
+    def save_event(self, event):
+        self.save()
+    def save_as_event(self, event):
+        self.save_as()
 
 def run():
     """Starts the program."""
@@ -216,6 +226,11 @@ def run():
     app.bind_all("<Control-r>", app.record_toggle_event)
     app.bind_all("<Control-c>", app.clear_event)
     app.bind_all("<Control-e>", app.edit_event)
+    app.bind_all("<Control-a>", app.autocorrect_event)
+    app.bind_all("<Control-n>", app.new_event)
+    app.bind_all("<Control-o>", app.open_event)
+    app.bind_all("<Control-s>", app.save_event)
+    app.bind_all("<Control-S>", app.save_as_event)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
     root.lift()
 
