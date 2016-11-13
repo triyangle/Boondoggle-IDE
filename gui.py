@@ -135,7 +135,7 @@ class Application(Frame):
         print(self.code)
 
         #self.text.insert(INSERT, self.code)
-        self.text2.insert(INSERT, self.raw)
+        self.text2.insert(INSERT, self.raw + ' ')
 
     def convert(self):
         self.raw = self.text2.get(0.0, END)
@@ -205,11 +205,11 @@ class Application(Frame):
         self.confirm.destroy()
 
     def goto(self, word):
-        txt = self.text.get(0.0, END)
+        txt = self.text2.get(0.0, END)
         index = txt.find(word)
         if index == -1:
             index = len(txt)
-        self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
+        self.text2.mark_set(INSERT, "1.0+{0} chars".format(index))
 
     def record_toggle_event(self, event):
         self.record_toggle()
