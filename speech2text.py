@@ -22,16 +22,25 @@ class Speech2Text:
             # instead of `r.recognize_google(audio)`
 
             raw_result =  self.r.recognize_google(self.audio, show_all=True)
-            print("Google Speech Recognition thinks you said " + str(raw_result))
-            #        gui(convert_to_code(raw_result))
 
-            self.raw_result =  self.r.recognize_google(self.audio)
-            print("Google Speech Recognition thinks you said " + self.raw_result)
-            word_array = text2arr(raw_result)
+            #raw_result is now a list of dictionaries of results
+            if not raw_result:
+                raise sr.UnknownValueError
+            raw_result = raw_result['alternative']
+            results = [op['transcript'] for op in raw_result]
+            self.result = results[0]
+            for r in results[1:]:
+                if results[0] in r and len(r.replace(results[0],""))==2 and len(r.replace(results[0],"").strip())==1:
+                    self.result = r
+
+            print("Google Speech Recognition thinks you said " + self.result + str(raw_result))
+            word_array = text2arr(self.result)
             word_array = fixtxterror(word_array)
             return expression(word_array)
 
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
+            return ""
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
+            return ""
