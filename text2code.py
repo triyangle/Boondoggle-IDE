@@ -57,6 +57,14 @@ def call(arr):
             i+=1
     return (code.strip() + ')',i+1)
 
+def infix(arr):
+    code = '(in '
+    i = 0
+    for _ in range(3):
+        n_exp = expression(arr[i:])
+        code += n_exp[0]+' '
+        i += n_exp[1]
+    return (code.strip() + ')',i+1)
 
 def skip(d, *strs):
     for s in strs:
@@ -82,15 +90,16 @@ expr_start_tree = {
     'define': def_tree,     #dict
     'call': call,           #handler
     'calling': call,        #handler
+    'within': infix,        #handler
     'one': '1',             #literal
     'zero': '0'             #literal
 }
-skip(expr_start_tree,'the','result','of')
+skip(expr_start_tree,'the','result','of', 'by')
 all_same(expr_start_tree,'+','plus','add','+')
 identity(expr_start_tree,'0','1','2','3','4','5','6','7','8','9')
 all_same(expr_start_tree,'-','-','sub','subtract','minus','difference')
 all_same(expr_start_tree,'*','*','mul','multiply','times','product')
-all_same(expr_start_tree,'/','/','divide','quotient')
+all_same(expr_start_tree,'/','/','divide','quotient', 'divided')
 all_same(expr_start_tree,'>','greater than','more than','>')
 
 
