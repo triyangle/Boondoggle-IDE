@@ -17,15 +17,16 @@ def extract_name(arr):
 def def_func(arr, indent):
     code = '(define ('
     i = 0
-    name = extract_name(arr)
+    name = extract_name(arr) #arr[0:]
     code += name[0]
     i += name[1]
     while arr[i] in func_params:
         i+=1
     while arr[i] not in func_body:
-        code += ' '+arr[i]
+        name = extract_name(arr[i:])
+        code += ' '+name[0]
+        i += name[1]
         #print(code)
-        i+=1
         while arr[i] in func_and:
             i+=1
     code += ')\n'
@@ -50,7 +51,7 @@ var_body = {'with','a','the','body','of','to','be','as','following', 'value'}
 def def_var(arr, indent):
     code = '(define '
     i = 0
-    name = extract_name(arr)
+    name = extract_name(arr) #arr[0:]
     code += name[0]+' '
     i += name[1]
     while arr[i] in var_body:
