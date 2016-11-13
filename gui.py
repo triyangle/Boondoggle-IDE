@@ -34,6 +34,9 @@ class Application(Frame):
         self.escapes = {
                 'find':self.goto,
                 'terminate':self.record_toggle,
+                'quit':self.record_toggle,
+                'stop':self.record_toggle,
+                'pause':self.record_toggle,
                 'clear':self.clear
             }
 
@@ -199,6 +202,13 @@ class Application(Frame):
         self.confirm.destroy()
 
     def goto(self, word):
+        txt = self.text.get(0.0, END)
+        index = txt.find(word)
+        if index == -1:
+            index = len(txt)
+        self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
+
+    def replace(self, word):
         txt = self.text.get(0.0, END)
         index = txt.find(word)
         if index == -1:
