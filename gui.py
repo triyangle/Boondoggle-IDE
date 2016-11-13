@@ -25,12 +25,17 @@ def same(f1name, text):
 
 # The main class
 class Application(Frame):
+
     def __init__(self, master):
         """Creates the structure and functionality of the application."""
         Frame.__init__(self, master)
         self.myfont = font.Font(family='Helvetica', size=24) # Customizable font
         self.recording = False
-        self.s2t = Speech2Text(True)
+        self.escapes = {
+                'go to ':self.goto
+            }
+
+        self.s2t = Speech2Text(self.escapes)
         self.filename = None
         self.code, self.raw= ''
         self.continyu = False
@@ -61,7 +66,6 @@ class Application(Frame):
         self.text = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 4)
-        print(self.master.winfo_reqwidth())
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
@@ -75,7 +79,7 @@ class Application(Frame):
         self.edit_button.grid(row=0, column=4)
         self.text2 = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text2.grid(row=1, column=4)
-        
+
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
         self.confirm = Toplevel()
@@ -103,10 +107,14 @@ class Application(Frame):
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        if self.recording:
+        while self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
+<<<<<<< HEAD
                 self.raw = self.s2t.result[0]
+=======
+                self.myprint()
+>>>>>>> 8df7f94ccaf533eff567a4680541474a2f7f7632
             except MyException:
                 pass
             # self.create_top_widgets2()
@@ -114,7 +122,7 @@ class Application(Frame):
             # if self.good:
             #     break
         print("Ending thread")
-        self.myprint()
+        # self.myprint()
 
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
@@ -125,7 +133,8 @@ class Application(Frame):
     def edit(self):
         self.raw = self.text2.get(0.0, END)
         self.code = CONVERTER(self.raw)
-        self.text.insert(INSERT, self.code)
+        self.text.insert(INSERT, self.code + ' ')
+
 
     def clear(self):
         """Clears the textbox."""
