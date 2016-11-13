@@ -11,9 +11,11 @@ class MyException(Exception):
 class Speech2Text:
 
     def __init__(self, escapes):
+        global ESCAPES
         self.r = sr.Recognizer()
         self.Joe = True
         self.escapes = escapes
+        ESCAPES = escapes
 
 
     def process(self, autocorrect):
@@ -29,6 +31,7 @@ class Speech2Text:
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
             raw_result =  self.r.recognize_google(audio, show_all=True)
+            print('allahu akbar!!!')
 
             #raw_result is now a list of dictionaries of results
             if not raw_result:
@@ -42,11 +45,13 @@ class Speech2Text:
                     if self.result in r and len(r.replace(self.result,""))==2 and len(r.replace(self.result,"").strip())==1:
                         self.result = r
 
-            print("Google Speech Recognition thinks you said " + self.result + str(raw_result))
             self.result = self.result.lower()
+
+            print("Google Speech Recognition thinks you said " + self.result + str(raw_result))
+            
             return convertstring(self.result, autocorrect)
 
-        except sr.UnknownValueError or MyException:
+        except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
             return ""
         except sr.RequestError as e:
@@ -58,8 +63,10 @@ def convertstring(result, autocorrect = False):
     word_array = text2arr(result)
     word_array = fixtxterror(word_array) if autocorrect else word_array
 
-    if word_array[0] == 'boondoggle':
-        self.escapes[word_array[1]](*(word_array[2:]))
-        return
+    if word_array[0].lower() == 'boondoggle' or word_array[0].lower() == 'boondoggles':
+        if word_array[1] in ESCAPES:
+            ESCAPES[word_array[1]](*(word_array[2:]))
+            return ""
+        return "<bad escape sequence>"
     else:
         return expression(word_array)[0]

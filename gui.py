@@ -32,7 +32,9 @@ class Application(Frame):
         self.myfont = font.Font(family='Helvetica', size=24) # Customizable font
         self.recording = False
         self.escapes = {
-                'go to ':self.goto
+                'find':self.goto,
+                'terminate':self.record_toggle,
+                'clear':self.clear
             }
 
         self.s2t = Speech2Text(self.escapes)
@@ -139,7 +141,7 @@ class Application(Frame):
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
         print(self.code)
-        self.text.insert(INSERT, self.code+' ')
+        self.text.insert(INSERT, self.code)
 
     def clear(self):
         """Clears the textbox."""
@@ -208,6 +210,7 @@ class Application(Frame):
         if index == -1:
             index = len(txt)
         self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
+
 
 def run():
     """Starts the program."""
