@@ -54,14 +54,11 @@ class Application(Frame):
         self.record_button = Button(self.master, text = "Record", command = self.record_toggle, font = self.myfont)
         self.record_button.grid(row=0, column=0)
 
-        self.print_button = Button(self.master, text = "Print", command = self.myprint, font = self.myfont)
-        self.print_button.grid(row=0, column=1)
-
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
-        self.clear_button.grid(row=0, column=2)
+        self.clear_button.grid(row=0, column=1)
 
         self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
-        self.correction_checkbox.grid(row = 0, column = 3)
+        self.correction_checkbox.grid(row = 0, column = 2)
 
         self.text = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
@@ -205,12 +202,22 @@ class Application(Frame):
             index = len(txt)
         self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
 
+    def record_toggle_event(self, event):
+        self.record_toggle()
+    def clear_event(self, event):
+        self.clear()
+    def edit_event(self, event):
+        self.edit()
+
 def run():
     """Starts the program."""
     root = Tk()
     root.title("Boondoggle IDE")
     root.geometry("1600x800")
     app = Application(root)
+    app.bind_all("<Control-r>", app.record_toggle_event)
+    app.bind_all("<Control-c>", app.clear_event)
+    app.bind_all("<Control-e>", app.edit_event)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
     root.lift()
 
