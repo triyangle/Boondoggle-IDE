@@ -34,6 +34,7 @@ class Speech2Text:
                     self.result = r
 
             print("Google Speech Recognition thinks you said " + self.result + str(raw_result))
+            self.result = self.result.lower()
             word_array = text2arr(self.result)
             word_array = fixtxterror(word_array)
             return expression(word_array)
