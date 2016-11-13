@@ -206,7 +206,10 @@ def text2arr(s):
 
 #error dictionary
 errors = {
-    ("it's",):("if")
+    ("it's",): ("if",),
+    ("weaving",): ("within",),
+    ("-1",): ("- 1",),
+    ("X",): ("*",)
 }
 
 def fixtxterror(arr):

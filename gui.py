@@ -30,10 +30,11 @@ class Application(Frame):
         Frame.__init__(self, master)
         self.myfont = font.Font(family='Helvetica', size=24) # Customizable font
         self.recording = False
-        self.s2t = Speech2Text()
+        self.s2t = Speech2Text(True)
         self.filename = None
         self.code = ''
         self.continyu = False
+        self.autocorrect = False
 
         image1 = PhotoImage(file='background.gif')
         background_label = Label(self.master, image=image1)
@@ -53,6 +54,9 @@ class Application(Frame):
 
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
         self.clear_button.grid(row=0, column=2, sticky=W)
+
+        self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
+        self.correction_checkbox.grid(row = 0, column = 3, sticky = W)
 
         self.text = Text(self.master, width=45, height = 25, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
@@ -77,6 +81,7 @@ class Application(Frame):
         self.save_button.grid(row=0, column=0, sticky=W)
         self.dont_button.grid(row=0, column=1, sticky=W)
         self.cancel_button.grid(row=0, column=2, sticky=W)
+        self.correction_checkbox.grid(row = 0, column = 3, sticky = W)
 
     # def create_top_widgets2(self):
     #     """Creates the widgets for the second popout menu."""
@@ -114,7 +119,7 @@ class Application(Frame):
         """Records speech and turns it into the string self.s2t.raw_result"""
         if self.recording:
             try:
-                self.code = self.s2t.process()
+                self.code = self.s2t.process(self.autocorrect)
             except MyException:
                 pass
             # self.create_top_widgets2()
@@ -132,6 +137,10 @@ class Application(Frame):
     def clear(self):
         """Clears the textbox."""
         self.text.delete(0.0, END)
+
+    def correct(self):
+        """Toggles autocorrection."""
+        self.autocorrect = not self.autocorrect
 
     def check_save(self):
         """Checks if the file needs to be saved and handles various cases."""
