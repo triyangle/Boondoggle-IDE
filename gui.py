@@ -78,6 +78,26 @@ class Application(Frame):
         self.dont_button.grid(row=0, column=1, sticky=W)
         self.cancel_button.grid(row=0, column=2, sticky=W)
 
+    def create_top_widgets2(self):
+        """Creates the widgets for the second popout menu."""
+        self.confirm2 = Toplevel()
+        self.code_label = Label(self.confirm2, text=self.code)
+        self.ask_label = Label(self.confirm2, text="Is this correct?")
+        self.yes_button = Button(self.confirm2, text="Close enough", command=self.yes)
+        self.no_button = Button(self.confirm2, text="No", command=self.no)
+        self.code_label.grid(row=0, column=1, columnspan=2, sticky=W)
+        self.ask_label.grid(row=1, column=1, columnspan=2, sticky=W)
+        self.yes_button.grid(row=2, column=1, sticky=W)
+        self.no_button.grid(row=2, column=2, sticky=W)
+
+    def yes(self):
+        self.good = True
+        self.confirm2.destroy()
+
+    def no(self):
+        self.good = False
+        self.confirm2.destroy()
+
     def record_toggle(self):
         """Toggles the recording of speech."""
         self.recording = not self.recording
@@ -91,6 +111,10 @@ class Application(Frame):
         """Records speech and turns it into the string self.s2t.raw_result"""
         while self.recording:
             self.code = self.s2t.process()
+            self.create_top_widgets2()
+            self.master.wait_window(self.confirm2)
+            if self.good:
+                break
         print("Ending thread")
 
     def myprint(self):
