@@ -204,7 +204,7 @@ class Application(Frame):
 def run():
     """Starts the program."""
     root = Tk()
-    root.title("Speech to Code")
+    root.title("Boondoggle IDE")
     root.geometry("800x800")
     app = Application(root)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
