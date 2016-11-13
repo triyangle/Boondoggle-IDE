@@ -39,7 +39,7 @@ class Application(Frame):
 
         self.s2t = Speech2Text(self.escapes)
         self.filename = None
-        self.code = ''
+        self.code = self.raw = ''
         self.continyu = False
         self.autocorrect = False
 
@@ -56,18 +56,25 @@ class Application(Frame):
         self.record_button = Button(self.master, text = "Record", command = self.record_toggle, font = self.myfont)
         self.record_button.grid(row=0, column=0)
 
-        self.print_button = Button(self.master, text = "Print", command = self.myprint, font = self.myfont)
-        self.print_button.grid(row=0, column=1)
-
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
-        self.clear_button.grid(row=0, column=2)
+        self.clear_button.grid(row=0, column=1)
 
         self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
-        self.correction_checkbox.grid(row = 0, column = 3)
+        self.correction_checkbox.grid(row = 0, column = 2)
 
-        self.text = Text(self.master, width=self.master.winfo_reqwidth()*5//self.myfont['size'], height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
+        self.text = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 4)
+
+        def tab(arg):
+            self.text.insert(INSERT, " " * 4)
+            return 'break'
+
+        self.text.bind("<Tab>", tab)
+
+        def vim_v(arg):
+            self.text.anchor
+
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
@@ -76,6 +83,11 @@ class Application(Frame):
         self.fileMenu.add_command(label="Save", command=self.save)
         self.fileMenu.add_command(label="Save as", command=self.save_as)
         self.master.config(menu=self.menubar)
+
+        self.edit_button = Button(self.master, text="Edit", command=self.edit, font=self.myfont)
+        self.edit_button.grid(row=0, column=4)
+        self.text2 = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
+        self.text2.grid(row=1, column=4)
 
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
@@ -89,27 +101,6 @@ class Application(Frame):
         self.save_button.grid(row=1, column=0, sticky=W)
         self.dont_button.grid(row=1, column=1, sticky=W)
         self.cancel_button.grid(row=1, column=2, sticky=W)
-
-
-    # def create_top_widgets2(self):
-    #     """Creates the widgets for the second popout menu."""
-    #     self.confirm2 = Toplevel()
-    #     self.code_label = Label(self.confirm2, text=self.code)
-    #     self.ask_label = Label(self.confirm2, text="Is this correct?")
-    #     self.yes_button = Button(self.confirm2, text="Close enough", command=self.yes)
-    #     self.no_button = Button(self.confirm2, text="No", command=self.no)
-    #     self.code_label.grid(row=0, column=1, columnspan=2, sticky=W)
-    #     self.ask_label.grid(row=1, column=1, columnspan=2, sticky=W)
-    #     self.yes_button.grid(row=2, column=1, sticky=W)
-    #     self.no_button.grid(row=2, column=2, sticky=W)
-    #
-    # def yes(self):
-    #     self.good = True
-    #     self.confirm2.destroy()
-    #
-    # def no(self):
-    #     self.good = False
-    #     self.confirm2.destroy()
 
     def record_toggle(self):
         """Toggles the recording of speech."""
@@ -125,22 +116,25 @@ class Application(Frame):
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        while self.recording:
+        if self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
-                self.myprint()
+                self.raw = self.s2t.result[0]
             except MyException:
                 pass
-            # self.create_top_widgets2()
-            # self.master.wait_window(self.confirm2)
-            # if self.good:
-            #     break
         print("Ending thread")
-        # self.myprint()
+        self.myprint()
 
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
         print(self.code)
+
+        #self.text.insert(INSERT, self.code)
+        self.text2.insert(0.0, self.raw)
+
+    def edit(self):
+        self.raw = self.text2.get(0.0, END)
+        self.code = convertstring(self.raw, self.autocorrect)
         self.text.insert(INSERT, self.code)
 
     def clear(self):
@@ -211,15 +205,25 @@ class Application(Frame):
             index = len(txt)
         self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
 
+    def record_toggle_event(self, event):
+        self.record_toggle()
+    def clear_event(self, event):
+        self.clear()
+    def edit_event(self, event):
+        self.edit()
 
 def run():
     """Starts the program."""
     root = Tk()
     root.title("Boondoggle IDE")
-    root.geometry("800x800")
+    root.geometry("1600x800")
     app = Application(root)
+    app.bind_all("<Control-r>", app.record_toggle_event)
+    app.bind_all("<Control-c>", app.clear_event)
+    app.bind_all("<Control-e>", app.edit_event)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
     root.lift()
+
     root.mainloop()
 
 if __name__ == "__main__":

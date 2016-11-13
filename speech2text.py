@@ -63,10 +63,16 @@ def convertstring(result, autocorrect = False):
     word_array = text2arr(result)
     word_array = fixtxterror(word_array) if autocorrect else word_array
 
+<<<<<<< HEAD
     if word_array[0].lower() == 'boondoggle' or word_array[0].lower() == 'boondoggles':
         if word_array[1] in ESCAPES:
             ESCAPES[word_array[1]](*(word_array[2:]))
             return ""
         return "<bad escape sequence>"
+=======
+    if word_array[0] == 'boondoggle':
+        ESCAPES = [word_array[1]](*(word_array[2:]))
+        return
+>>>>>>> 65339904b69f7429cd26ceb248657b3db9ead432
     else:
         return expression(word_array)[0]
