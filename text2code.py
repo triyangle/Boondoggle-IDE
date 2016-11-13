@@ -80,6 +80,28 @@ call_the_func = {'the','a','function'}
 call_on = {'on','the','argument','arguments','parameter','parameters','by'}
 call_and = {'and', 'also', 'the', 'argument'}
 
+gt_lt_skip = {'than','then','or','to'}
+def gt_select(arr):
+    i = 0
+    while arr[i] in gt_lt_skip:
+        i += 1
+    if arr[i] != 'equal':
+        return ('>',i)
+    i+=1
+    while arr[i] in gt_lt_skip:
+        i += 1
+    return ('>=',i)
+def lt_select(arr):
+    i = 0
+    while arr[i] in gt_lt_skip:
+        i += 1
+    if arr[i] != 'equal':
+        return ('<',i)
+    i+=1
+    while arr[i] in gt_lt_skip:
+        i += 1
+    return ('<=',i)
+
 def_tree = {
     'function': def_func,
     'variable': def_var
@@ -94,14 +116,13 @@ expr_start_tree = {
     'one': '1',             #literal
     'zero': '0'             #literal
 }
-skip(expr_start_tree,'the','result','of', 'by')
-all_same(expr_start_tree,'+','plus','add','+')
-identity(expr_start_tree,'0','1','2','3','4','5','6','7','8','9')
-all_same(expr_start_tree,'-','-','sub','subtract','minus','difference')
-all_same(expr_start_tree,'*','*','mul','multiply','times','product')
-all_same(expr_start_tree,'/','/','divide','quotient', 'divided')
-all_same(expr_start_tree,'>','greater than','more than','>')
-
+skip(expr_start_tree,'the','result','of', 'by', 'is', 'than')
+all_same(expr_start_tree,'+','plus','add')
+all_same(expr_start_tree,'-','sub','subtract','minus','difference')
+all_same(expr_start_tree,'*','mul','multiply','times','product')
+all_same(expr_start_tree,'/','divide','quotient', 'divided')
+all_same(expr_start_tree, gt_select,'greater','more')
+all_same(expr_start_tree, lt_select,'less','smaller')
 
 def expression(arr):
     i = 0
