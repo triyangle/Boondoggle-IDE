@@ -2,7 +2,7 @@
 #text to code stuff here
 func_params = {'with','parameter','parameters','param','params',
                'args','arg','arguments','argument','of'}
-func_body = {'with','a','the','body','of','to','be','as'}
+func_body = {'with','a','the','body','of','to','be','as','following'}
 func_and = {'and','also','then'}
 
 def def_func(arr):
@@ -14,19 +14,29 @@ def def_func(arr):
         i+=1
     while arr[i] not in func_body:
         code += ' '+arr[i]
+        #print(code)
         i+=1
         while arr[i] in func_and:
             i+=1
     code += ")\n"
     while arr[i] in func_body:
         i+=1
-    while arr[i] != 'stop':
+    if arr[i] == 'just':
+        i+=1
+        while arr[i] in func_body:
+            i+=1
         n_exp = expression(arr[i:])
         code += n_exp[0]+"\n"
         i += n_exp[1]
-    return (code+')', i+1)
+        return (code+')', i)
+    else:
+        while arr[i] != 'stop':
+            n_exp = expression(arr[i:])
+            code += n_exp[0]+"\n"
+            i += n_exp[1]
+        return (code+')', i+1)
 
-var_body = {'with','a','the','body','of','to','be','as'}
+var_body = {'with','a','the','body','of','to','be','as','following'}
 def def_var(arr):
     code = '(define '
     i = 0
