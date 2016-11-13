@@ -63,6 +63,14 @@ class Application(Frame):
         self.text = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 4)
+
+        def tab(arg):
+            print("tab pressed")
+            self.text.insert(INSERT, " " * 4)
+            return 'break'
+
+        self.text.bind("<Tab>", tab)
+
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
@@ -210,6 +218,7 @@ def run():
     app.bind_all("<Control-e>", app.edit_event)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
     root.lift()
+
     root.mainloop()
 
 if __name__ == "__main__":
