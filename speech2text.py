@@ -14,6 +14,8 @@ class Speech2Text:
         self.r = sr.Recognizer()
         self.Joe = True
         self.escapes = escapes
+
+
     def process(self, autocorrect):
         with sr.Microphone() as source:
             self.r.adjust_for_ambient_noise(source) # listen for 1 second to calibrate the energy threshold for ambient noise levels
@@ -42,13 +44,7 @@ class Speech2Text:
 
             print("Google Speech Recognition thinks you said " + self.result + str(raw_result))
             self.result = self.result.lower()
-            word_array = text2arr(self.result)
-            word_array = fixtxterror(word_array) if autocorrect else word_array
-
-            if word_array[0] == 'boondoggle':
-                return self.escapes[word_array[1]]
-            else:
-                return expression(word_array)[0]
+            return convertstring(self.result, autocorrect)
 
         except sr.UnknownValueError or MyException:
             print("Google Speech Recognition could not understand audio")
@@ -56,3 +52,14 @@ class Speech2Text:
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
             return ""
+
+def convertstring(result, autocorrect = False):
+    result = result.lower()
+    word_array = text2arr(result)
+    word_array = fixtxterror(word_array) if autocorrect else word_array
+
+    if word_array[0] == 'boondoggle':
+        self.escapes[word_array[1]](*(word_array[2:]))
+        return
+    else:
+        return expression(word_array)[0]
