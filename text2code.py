@@ -219,7 +219,16 @@ expr_start_tree = {
     'letter': letter,       #handler
     'letters': letters,     #handler
     'one': '1',             #literal
-    'zero': '0'             #literal
+    'zero': '0',            #literal
+    'two': '2',             #literal
+    'three': '3',           #literal
+    'four': '4',            #literal
+    'five': '5',            #literal
+    'six': '6',             #literal
+    'seven': '7',           #literal
+    'eight': '8',           #literal
+    'nine': '9',            #literal
+    'ten': '10'             #literal
 }
 skip(expr_start_tree,'the','result','of', 'by', 'is', 'than', 'to')
 all_same(expr_start_tree,'+','plus','add')
