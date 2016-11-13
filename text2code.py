@@ -188,8 +188,25 @@ def_tree = {
 }
 skip(def_tree, 'a', 'an', 'the')
 
+papa_tree = {
+    'john': "(print 'announcements!)",
+    'jon': "(print 'announcements!)"
+}
+
+short_tree = {
+    'factorial':"""(define (factorial n)
+    (if (< n 2) 1
+        (* n (factorial (- n 1)))
+    )
+)""",
+    'berkeley':"(print 'calhacks)",
+    'return':'\n',
+    'papa':papa_tree
+}
+
 expr_start_tree = {
     'define': def_tree,     #dict
+    'shortcut': short_tree, #dict
     'call': call,           #handler
     'calling': call,        #handler
     'within': infix,        #handler
