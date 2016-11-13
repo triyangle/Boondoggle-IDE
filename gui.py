@@ -32,7 +32,9 @@ class Application(Frame):
         self.myfont = font.Font(family='Helvetica', size=24) # Customizable font
         self.recording = False
         self.escapes = {
-                'go to ':self.goto
+                'find':self.goto,
+                'terminate':self.record_toggle,
+                'clear':self.clear
             }
 
         self.s2t = Speech2Text(self.escapes)
@@ -65,11 +67,13 @@ class Application(Frame):
         self.text.grid(row=1, column=0, columnspan = 4)
 
         def tab(arg):
-            print("tab pressed")
             self.text.insert(INSERT, " " * 4)
             return 'break'
 
         self.text.bind("<Tab>", tab)
+
+        def vim_v(arg):
+            self.text.anchor
 
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
@@ -124,13 +128,14 @@ class Application(Frame):
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
         print(self.code)
+
         #self.text.insert(INSERT, self.code)
         self.text2.insert(0.0, self.raw)
 
     def edit(self):
         self.raw = self.text2.get(0.0, END)
         self.code = convertstring(self.raw, self.autocorrect)
-        self.text.insert(INSERT, self.code + ' ')
+        self.text.insert(INSERT, self.code)
 
     def clear(self):
         """Clears the textbox."""

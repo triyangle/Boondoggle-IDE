@@ -1,5 +1,7 @@
 
 #text to code stuff here
+
+debug = ''
 func_params = {'with','parameter','parameters','param','params',
                'args','arg','arguments','argument','of'}
 func_body = {'with','a','the','body','of','to','be','as','following'}
@@ -15,6 +17,7 @@ def extract_name(arr):
     return (arr[0],1)
 
 def def_func(arr, indent):
+    global debug
     code = '(define ('
     i = 0
     name = extract_name(arr) #arr[0:]
@@ -26,7 +29,7 @@ def def_func(arr, indent):
         name = extract_name(arr[i:])
         code += ' '+name[0]
         i += name[1]
-        #print(code)
+        debug+=code+'\n'
         while arr[i] in func_and:
             i+=1
     code += ')\n'
@@ -87,13 +90,14 @@ def call(arr, indent):
         return (code.strip() + ')',i+1)
 
 def infix(arr, indent):
+    global debug
     code = '(in '
     i = 0
     for _ in range(3):
         n_exp = expression(arr[i:])
         code += n_exp[0]+' '
         i += n_exp[1]
-        #print(code)
+        debug+=code+'\n'
     return (code.strip() + ')',i)
 
 if_then = {'then'}
@@ -226,21 +230,27 @@ all_same(expr_start_tree,'/','divide','quotient', 'divided')
 all_same(expr_start_tree, '=','equal','equals')
 all_same(expr_start_tree, gt_select,'greater','more')
 all_same(expr_start_tree, lt_select,'less','smaller')
-
+class EndTranscriptError(BaseException):
+    pass
 def expression(arr, indent=0):
-    i = 0
-    res = expr_start_tree
-    while isinstance(res, dict):
-        #print('e',arr,i)
-        if arr[i] in res:
-            res = res[arr[i]]
-        else:
-            return (arr[i],i+1)
-        i += 1
-    if isinstance(res, str):
-        return (res,i)
-    n_res = res(arr[i:], indent)
-    return (n_res[0], n_res[1]+i)
+    global debug
+    try:
+        i = 0
+        res = expr_start_tree
+        while isinstance(res, dict):
+            if arr[i] in res:
+                res = res[arr[i]]
+            else:
+                return (arr[i],i+1)
+            debug+=str(('e',arr[i]))+'\n'
+            i += 1
+        if isinstance(res, str):
+            return (res,i)
+        n_res = res(arr[i:], indent)
+        return (n_res[0], n_res[1]+i)
+    except IndexError:
+        raise EndTranscriptError(debug+"""Unexpected end of transcription: Is there a missing 'stop'?
+Did you take too long a pause? Verbose debug output is above. Sorry for the spam""")
 
 #text to array
 def text2arr(s):
