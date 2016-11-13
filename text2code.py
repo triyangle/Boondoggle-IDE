@@ -64,7 +64,8 @@ def infix(arr):
         n_exp = expression(arr[i:])
         code += n_exp[0]+' '
         i += n_exp[1]
-    return (code.strip() + ')',i+1)
+        #print(code)
+    return (code.strip() + ')',i)
 
 def skip(d, *strs):
     for s in strs:
@@ -116,11 +117,12 @@ expr_start_tree = {
     'one': '1',             #literal
     'zero': '0'             #literal
 }
-skip(expr_start_tree,'the','result','of', 'by', 'is', 'than')
+skip(expr_start_tree,'the','result','of', 'by', 'is', 'than', 'to')
 all_same(expr_start_tree,'+','plus','add')
 all_same(expr_start_tree,'-','sub','subtract','minus','difference')
 all_same(expr_start_tree,'*','mul','multiply','times','product')
 all_same(expr_start_tree,'/','divide','quotient', 'divided')
+all_same(expr_start_tree, '=','equal','equals')
 all_same(expr_start_tree, gt_select,'greater','more')
 all_same(expr_start_tree, lt_select,'less','smaller')
 
