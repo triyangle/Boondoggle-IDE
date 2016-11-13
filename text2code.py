@@ -2,7 +2,7 @@
 #text to code stuff here
 func_params = {'with','parameter','parameters','param','params',
                'args','arg','arguments','argument','of'}
-func_body = {'with','a','the','body','of','to','be'}
+func_body = {'with','a','the','body','of','to','be','as'}
 func_and = {'and','also','then'}
 
 def def_func(arr):
@@ -26,9 +26,18 @@ def def_func(arr):
         i += n_exp[1]
     return (code+')', i+1)
 
+var_body = {'with','a','the','body','of','to','be','as'}
 def def_var(arr):
-    print()
-    #nothing here yet
+    code = '(define '
+    i = 0
+    code += arr[i]+' '
+    i+=1
+    while arr[i] in var_body:
+        i+=1
+    n_exp = expression(arr[i:])
+    code += n_exp[0]
+    i += n_exp[1]
+    return (code+')', i+1)
 
 def call(arr):
     code = '('
@@ -77,8 +86,8 @@ expr_start_tree = {
     'zero': '0'             #literal
 }
 skip(expr_start_tree,'the','result','of')
-all_same(expr_start_tree,'+','plus','add')
-identity(expr_start_tree,'+','0','1','2','3','4','5','6','7','8','9')
+all_same(expr_start_tree,'+','plus','add','+')
+identity(expr_start_tree,'0','1','2','3','4','5','6','7','8','9')
 all_same(expr_start_tree,'-','-','sub','subtract','minus','difference')
 all_same(expr_start_tree,'*','*','mul','multiply','times','product')
 all_same(expr_start_tree,'/','/','divide','quotient')
