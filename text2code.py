@@ -5,7 +5,7 @@ func_params = {'with','parameter','parameters','param','params',
 func_body = {'with','a','the','body','of','to','be','as','following'}
 func_and = {'and','also','then'}
 
-def def_func(arr):
+def def_func(arr, indent):
     code = '(define ('
     i = 0
     code += arr[i]
@@ -18,63 +18,63 @@ def def_func(arr):
         i+=1
         while arr[i] in func_and:
             i+=1
-    code += ")\n"
+    code += ')\n'
     while arr[i] in func_body:
         i+=1
     if arr[i] == 'just':
         i+=1
         while arr[i] in func_body:
             i+=1
-        n_exp = expression(arr[i:])
-        code += n_exp[0]+"\n"
+        n_exp = expression(arr[i:], indent+1)
+        code += '    '*(indent+1)+n_exp[0]+"\n"
         i += n_exp[1]
-        return (code+')', i)
+        return (code+'    '*indent+')', i)
     else:
         while arr[i] != 'stop':
-            n_exp = expression(arr[i:])
-            code += n_exp[0]+"\n"
+            n_exp = expression(arr[i:], indent+1)
+            code += '    '*(indent+1)+n_exp[0]+"\n"
             i += n_exp[1]
-        return (code+')', i+1)
+        return (code+'    '*indent+')', i+1)
 
-var_body = {'with','a','the','body','of','to','be','as','following'}
-def def_var(arr):
+var_body = {'with','a','the','body','of','to','be','as','following', 'value'}
+def def_var(arr, indent):
     code = '(define '
     i = 0
     code += arr[i]+' '
     i+=1
     while arr[i] in var_body:
         i+=1
-    n_exp = expression(arr[i:])
+    n_exp = expression(arr[i:], indent)
     code += n_exp[0]
     i += n_exp[1]
     return (code+')', i+1)
 
-def call(arr):
+def call(arr, indent):
     code = '('
     i = 0
     while arr[i] in call_the_func:
         i+=1
-    n_exp = expression(arr[i:])
+    n_exp = expression(arr[i:], indent)
     code += n_exp[0]+' '
     i += n_exp[1]
     while arr[i] in call_on:
         i+=1
     if arr[i] == 'just':
         i += 1
-        n_exp = expression(arr[i:])
+        n_exp = expression(arr[i:], indent)
         code += n_exp[0]+' '
         i += n_exp[1]
         return (code.strip() + ')',i)
     else:
         while arr[i] != 'stop':
-            n_exp = expression(arr[i:])
+            n_exp = expression(arr[i:], indent)
             code += n_exp[0]+' '
             i += n_exp[1]
             while arr[i] in call_and:
                 i+=1
         return (code.strip() + ')',i+1)
 
-def infix(arr):
+def infix(arr, indent):
     code = '(in '
     i = 0
     for _ in range(3):
@@ -86,23 +86,23 @@ def infix(arr):
 
 if_then = {'then'}
 if_else = {'else','otherwise'}
-def if_form(arr):
+def if_form(arr, indent):
     code = '(if '
     i = 0
-    n_exp = expression(arr[i:])
+    n_exp = expression(arr[i:], indent)
     code += n_exp[0]+'\n'
     i += n_exp[1]
     while arr[i] in if_then:
         i+=1
-    n_exp = expression(arr[i:])
-    code += n_exp[0]+'\n'
+    n_exp = expression(arr[i:], indent+1)
+    code += '    '*(indent+1) + n_exp[0]+'\n'
     i += n_exp[1]
     while arr[i] in if_else:
         i+=1
-    n_exp = expression(arr[i:])
-    code += n_exp[0]+'\n'
+    n_exp = expression(arr[i:], indent+1)
+    code += '    '*(indent+1) + n_exp[0]+'\n'
     i += n_exp[1]
-    return (code+')', i)
+    return (code+'    '*indent+')', i)
 
 def skip(d, *strs):
     for s in strs:
@@ -119,7 +119,7 @@ call_on = {'on','the','argument','arguments','parameter','parameters','by'}
 call_and = {'and', 'also', 'the', 'argument'}
 
 gt_lt_skip = {'than','then','or','to'}
-def gt_select(arr):
+def gt_select(arr, _=None):
     i = 0
     while arr[i] in gt_lt_skip:
         i += 1
@@ -129,7 +129,7 @@ def gt_select(arr):
     while arr[i] in gt_lt_skip:
         i += 1
     return ('>=',i)
-def lt_select(arr):
+def lt_select(arr, _=None):
     i = 0
     while arr[i] in gt_lt_skip:
         i += 1
@@ -164,7 +164,7 @@ all_same(expr_start_tree, '=','equal','equals')
 all_same(expr_start_tree, gt_select,'greater','more')
 all_same(expr_start_tree, lt_select,'less','smaller')
 
-def expression(arr):
+def expression(arr, indent=0):
     i = 0
     res = expr_start_tree
     while isinstance(res, dict):
@@ -176,7 +176,7 @@ def expression(arr):
         i += 1
     if isinstance(res, str):
         return (res,i)
-    n_res = res(arr[i:])
+    n_res = res(arr[i:], indent)
     return (n_res[0], n_res[1]+i)
 
 #text to array
@@ -185,10 +185,10 @@ def text2arr(s):
 
 #error dictionary
 errors = {
-    ("it's",): "if",
-    ("weaving",): "within",
-    ("-1",): "- 1",
-    ("X",): "*"
+    ("it's",): ("if",),
+    ("weaving",): ("within",),
+    ("-1",): ("- 1",),
+    ("X",): ("*",)
 }
 
 def fixtxterror(arr):

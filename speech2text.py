@@ -9,9 +9,11 @@ from text2code import *
 class MyException(Exception):
     pass
 class Speech2Text:
-    def __init__(self):
+
+    def __init__(self, escapes):
         self.r = sr.Recognizer()
         self.Joe = True
+        self.escapes = escapes
     def process(self):
         with sr.Microphone() as source:
             self.r.adjust_for_ambient_noise(source) # listen for 1 second to calibrate the energy threshold for ambient noise levels
@@ -40,7 +42,11 @@ class Speech2Text:
             self.result = self.result.lower()
             word_array = text2arr(self.result)
             word_array = fixtxterror(word_array)
-            return expression(word_array)[0]
+
+            if word_array[0] == 'boondoggle':
+                return self.escapes[word_array[1]]
+            else:
+                return expression(word_array)[0]
 
         except sr.UnknownValueError or MyException:
             print("Google Speech Recognition could not understand audio")

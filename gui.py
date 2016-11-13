@@ -45,13 +45,13 @@ class Application(Frame):
 
     def create_widgets(self):
         """Creates and grids all of the necessary widgets for the application."""
-        self.record_button = Button(self.master, text = "Record", command = self.record_toggle, font = self.myfont, underline = 0)
+        self.record_button = Button(self.master, text = "Record", command = self.record_toggle, font = self.myfont)
         self.record_button.grid(row=0, column=0, sticky=W)
 
-        self.print_button = Button(self.master, text = "Print", command = self.myprint, font = self.myfont, underline = 0)
+        self.print_button = Button(self.master, text = "Print", command = self.myprint, font = self.myfont)
         self.print_button.grid(row=0, column=1, sticky=W)
 
-        self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont, underline = 0)
+        self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
         self.clear_button.grid(row=0, column=2, sticky=W)
 
         self.text = Text(self.master, width=45, height = 25, font = self.myfont, wrap = WORD)
@@ -112,7 +112,7 @@ class Application(Frame):
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        while self.recording:
+        if self.recording:
             try:
                 self.code = self.s2t.process()
             except MyException:
@@ -122,6 +122,7 @@ class Application(Frame):
             # if self.good:
             #     break
         print("Ending thread")
+        self.myprint()
 
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
@@ -184,6 +185,12 @@ class Application(Frame):
         self.continyu = True
         self.confirm.destroy()
 
+    def goto(self, word):
+        txt = self.text.get(0.0, END)
+        index = txt.find(word)
+        if index == -1:
+            index = len(txt)
+        self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
 
 def run():
     """Starts the program."""
