@@ -248,9 +248,10 @@ def expression(arr, indent=0):
         n_res = res(arr[i:], indent)
         return (n_res[0], n_res[1]+i)
     except IndexError:
-        raise EndTranscriptError(debug+"""Unexpected end of transcription: Is there a missing 'stop'?
-Did you take too long a pause? Verbose debug output is above. Sorry for the spam""")
-
+        #raise EndTranscriptError(debug+"""Unexpected end of transcription: Is there a missing 'stop'?
+#Did you take too long a pause? Verbose debug output is above. Sorry for the spam""")
+        print('endtranscript')
+        return ('',0)
 #text to array
 def text2arr(s):
     return s.split()
