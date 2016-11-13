@@ -32,7 +32,7 @@ class Application(Frame):
         self.recording = False
         self.s2t = Speech2Text(True)
         self.filename = None
-        self.code = ''
+        self.code, self.raw= ''
         self.continyu = False
         self.autocorrect = False
 
@@ -75,6 +75,7 @@ class Application(Frame):
         self.edit_button.grid(row=0, column=4)
         self.text2 = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text2.grid(row=1, column=4)
+        
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
         self.confirm = Toplevel()
@@ -87,27 +88,6 @@ class Application(Frame):
         self.save_button.grid(row=1, column=0, sticky=W)
         self.dont_button.grid(row=1, column=1, sticky=W)
         self.cancel_button.grid(row=1, column=2, sticky=W)
-
-
-    # def create_top_widgets2(self):
-    #     """Creates the widgets for the second popout menu."""
-    #     self.confirm2 = Toplevel()
-    #     self.code_label = Label(self.confirm2, text=self.code)
-    #     self.ask_label = Label(self.confirm2, text="Is this correct?")
-    #     self.yes_button = Button(self.confirm2, text="Close enough", command=self.yes)
-    #     self.no_button = Button(self.confirm2, text="No", command=self.no)
-    #     self.code_label.grid(row=0, column=1, columnspan=2, sticky=W)
-    #     self.ask_label.grid(row=1, column=1, columnspan=2, sticky=W)
-    #     self.yes_button.grid(row=2, column=1, sticky=W)
-    #     self.no_button.grid(row=2, column=2, sticky=W)
-    #
-    # def yes(self):
-    #     self.good = True
-    #     self.confirm2.destroy()
-    #
-    # def no(self):
-    #     self.good = False
-    #     self.confirm2.destroy()
 
     def record_toggle(self):
         """Toggles the recording of speech."""
@@ -126,6 +106,7 @@ class Application(Frame):
         if self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
+                self.raw = self.s2t.result[0]
             except MyException:
                 pass
             # self.create_top_widgets2()
@@ -139,10 +120,11 @@ class Application(Frame):
         """Prints the most recent code and inserts it at the cursor."""
         print(self.code)
         #self.text.insert(INSERT, self.code)
-        self.text2.insert(0.0, self.code)
+        self.text2.insert(0.0, self.raw)
 
     def edit(self):
-        self.code = self.text2.get(0.0, END)
+        self.raw = self.text2.get(0.0, END)
+        self.code = CONVERTER(self.raw)
         self.text.insert(INSERT, self.code)
 
     def clear(self):
