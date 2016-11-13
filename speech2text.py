@@ -24,6 +24,7 @@ class Speech2Text:
             print("Say something!")
             audio = self.r.listen(source)
             if not self.Joe:
+                self.result = ''
                 raise MyException
             # recognize speech using Google Speech Recognition
         try:

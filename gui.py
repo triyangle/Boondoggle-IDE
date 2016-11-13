@@ -37,7 +37,8 @@ class Application(Frame):
                 'quit':self.record_toggle,
                 'stop':self.record_toggle,
                 'pause':self.record_toggle,
-                'clear':self.clear
+                'clear':self.clear,
+                'replace':self.replace
             }
 
         self.s2t = Speech2Text(self.escapes)
@@ -125,7 +126,10 @@ class Application(Frame):
         if self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
-                self.raw = self.s2t.result
+                if 'boondoggle' in self.s2t.result or self.code == '':
+                    self.raw = ""
+                else:
+                    self.raw = self.s2t.result
             except MyException:
                 pass
         self.recording = False
@@ -214,12 +218,15 @@ class Application(Frame):
             index = len(txt)
         self.text2.mark_set(INSERT, "1.0+{0} chars".format(index))
 
-    def replace(self, word):
-        txt = self.text.get(0.0, END)
+    def replace(self, word, *rest):
+        txt = self.text2.get(0.0, END)
         index = txt.find(word)
         if index == -1:
             index = len(txt)
-        self.text.mark_set(INSERT, "1.0+{0} chars".format(index))
+        else:
+            self.text2.delete(1.0, END)
+            self.text2.insert(0.0, txt[:index+len(word)].replace(word,"")+' '.join(rest)+' '+txt[index+len(word)+1:])
+        # self.text2.mark_set(INSERT, "1.0+{0} chars".format(index))
 
     def record_toggle_event(self, event):
         self.record_toggle()
