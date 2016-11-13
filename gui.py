@@ -140,7 +140,7 @@ class Application(Frame):
 
     def correct(self):
         """Toggles autocorrection."""
-        self.autocorrect = True
+        self.autocorrect = not self.autocorrect
 
     def check_save(self):
         """Checks if the file needs to be saved and handles various cases."""
