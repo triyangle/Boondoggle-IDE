@@ -110,24 +110,23 @@ class Application(Frame):
         self.recording = not self.recording
         if self.recording:
             print("Starting thread")
-            self.record_button['text'] = "Done"
+            self.record_button['state'] = DISABLED
             self.s2t.Joe = True
             self.record_thread = threading.Thread(target=self.record)
             self.record_thread.daemon = True
             self.record_thread.start()
             print("Started thread")
-        else:
-            self.record_button['text'] = "Recording"
-            self.s2t.Joe = False
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        while self.recording:
+        if self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
                 self.raw = self.s2t.result
             except MyException:
                 pass
+        self.recording = False
+        self.record_button['state'] = NORMAL
         print("Ending thread")
         self.myprint()
 
@@ -136,7 +135,7 @@ class Application(Frame):
         print(self.code)
 
         #self.text.insert(INSERT, self.code)
-        self.text2.insert(0.0, self.raw)
+        self.text2.insert(INSERT, self.raw)
 
     def convert(self):
         self.raw = self.text2.get(0.0, END)
