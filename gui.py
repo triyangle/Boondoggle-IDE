@@ -37,7 +37,7 @@ class Application(Frame):
 
         self.s2t = Speech2Text(self.escapes)
         self.filename = None
-        self.code, self.raw= ''
+        self.code = self.raw = ''
         self.continyu = False
         self.autocorrect = False
 
@@ -107,22 +107,14 @@ class Application(Frame):
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        while self.recording:
+        if self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
-<<<<<<< HEAD
                 self.raw = self.s2t.result[0]
-=======
-                self.myprint()
->>>>>>> 8df7f94ccaf533eff567a4680541474a2f7f7632
             except MyException:
                 pass
-            # self.create_top_widgets2()
-            # self.master.wait_window(self.confirm2)
-            # if self.good:
-            #     break
         print("Ending thread")
-        # self.myprint()
+        self.myprint()
 
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
@@ -132,9 +124,8 @@ class Application(Frame):
 
     def edit(self):
         self.raw = self.text2.get(0.0, END)
-        self.code = CONVERTER(self.raw)
+        self.code = convertstring(self.raw, self.autocorrect)
         self.text.insert(INSERT, self.code + ' ')
-
 
     def clear(self):
         """Clears the textbox."""

@@ -11,9 +11,11 @@ class MyException(Exception):
 class Speech2Text:
 
     def __init__(self, escapes):
+        global ESCAPES
         self.r = sr.Recognizer()
         self.Joe = True
         self.escapes = escapes
+        ESCAPES = escapes
 
 
     def process(self, autocorrect):
@@ -59,7 +61,7 @@ def convertstring(result, autocorrect = False):
     word_array = fixtxterror(word_array) if autocorrect else word_array
 
     if word_array[0] == 'boondoggle':
-        self.escapes[word_array[1]](*(word_array[2:]))
+        ESCAPES = [word_array[1]](*(word_array[2:]))
         return
     else:
         return expression(word_array)[0]
