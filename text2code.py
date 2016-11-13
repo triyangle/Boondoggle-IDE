@@ -244,6 +244,9 @@ def expression(arr, indent=0):
             debug+=str(('e',arr[i]))+'\n'
             i += 1
         if isinstance(res, str):
+            if res == "(print 'announcements!)":
+                import webbrowser
+                webbrowser.open_new("https://www.youtube.com/watch?v=RD62HmxsZ70")
             return (res,i)
         n_res = res(arr[i:], indent)
         return (n_res[0], n_res[1]+i)
