@@ -22,7 +22,7 @@ def def_func(arr, indent):
     i += name[1]
     while arr[i] in func_params:
         i+=1
-    while arr[i] not in func_body:
+    while arr[i] not in func_body and arr[i]!='just':
         name = extract_name(arr[i:])
         code += ' '+name[0]
         i += name[1]
@@ -234,7 +234,7 @@ errors = {
     ("it's",): ("if",),
     ("weaving",): ("within",),
     ("-1",): ("- 1",),
-    ("X",): ("*",)
+    ("ii",): ("second",)
 }
 
 def fixtxterror(arr):
