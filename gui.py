@@ -116,10 +116,10 @@ class Application(Frame):
 
     def record(self):
         """Records speech and turns it into the string self.s2t.raw_result"""
-        if self.recording:
+        while self.recording:
             try:
                 self.code = self.s2t.process(self.autocorrect)
-                self.raw = self.s2t.result[0]
+                self.raw = self.s2t.result
             except MyException:
                 pass
         print("Ending thread")
