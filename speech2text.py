@@ -6,22 +6,25 @@ import speech_recognition as sr
 from text2code import *
 
 # obtain audio from the microphone
+class MyException(Exception):
+    pass
 class Speech2Text:
     def __init__(self):
         self.r = sr.Recognizer()
+        self.Joe = True
     def process(self):
         with sr.Microphone() as source:
             self.r.adjust_for_ambient_noise(source) # listen for 1 second to calibrate the energy threshold for ambient noise levels
             print("Say something!")
-            self.audio = self.r.listen(source)
-
+            audio = self.r.listen(source)
+            if not self.Joe:
+                raise MyException
             # recognize speech using Google Speech Recognition
         try:
             # for testing purposes, we're just using the default API key
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
-
-            raw_result =  self.r.recognize_google(self.audio, show_all=True)
+            raw_result =  self.r.recognize_google(audio, show_all=True)
 
             #raw_result is now a list of dictionaries of results
             if not raw_result:
@@ -39,7 +42,7 @@ class Speech2Text:
             word_array = fixtxterror(word_array)
             return expression(word_array)
 
-        except sr.UnknownValueError:
+        except sr.UnknownValueError or MyException:
             print("Google Speech Recognition could not understand audio")
             return ""
         except sr.RequestError as e:
