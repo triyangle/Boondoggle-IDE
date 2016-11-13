@@ -74,14 +74,16 @@ class Application(Frame):
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
         self.confirm = Toplevel()
+        self.prompt_label = Label(self.confirm, text="You have unsaved changes. Do you want to save?")
         self.save_button = Button(self.confirm, text="Save", command=self.destroy_save)
         self.dont_button = Button(self.confirm, text="Don't save", command=self.dont_save)
         self.cancel_button = Button(self.confirm, text="Cancel", command=self.confirm.destroy)
 
-        self.save_button.grid(row=0, column=0, sticky=W)
-        self.dont_button.grid(row=0, column=1, sticky=W)
-        self.cancel_button.grid(row=0, column=2, sticky=W)
-        self.correction_checkbox.grid(row = 0, column = 3, sticky = W)
+        self.prompt_label.grid(row=0, column=0, columnspan=3, sticky=W)
+        self.save_button.grid(row=1, column=0, sticky=W)
+        self.dont_button.grid(row=1, column=1, sticky=W)
+        self.cancel_button.grid(row=1, column=2, sticky=W)
+
 
     # def create_top_widgets2(self):
     #     """Creates the widgets for the second popout menu."""
