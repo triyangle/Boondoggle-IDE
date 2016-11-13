@@ -49,13 +49,20 @@ def call(arr):
     i += n_exp[1]
     while arr[i] in call_on:
         i+=1
-    while arr[i] != 'stop':
+    if arr[i] == 'just':
+        i += 1
         n_exp = expression(arr[i:])
         code += n_exp[0]+' '
         i += n_exp[1]
-        while arr[i] in call_and:
-            i+=1
-    return (code.strip() + ')',i+1)
+        return (code.strip() + ')',i)
+    else:
+        while arr[i] != 'stop':
+            n_exp = expression(arr[i:])
+            code += n_exp[0]+' '
+            i += n_exp[1]
+            while arr[i] in call_and:
+                i+=1
+        return (code.strip() + ')',i+1)
 
 def infix(arr):
     code = '(in '
