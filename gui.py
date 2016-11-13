@@ -55,7 +55,7 @@ class Application(Frame):
         self.clear_button.grid(row=0, column=2, sticky=W)
 
         self.text = Text(self.master, width=35, height = 5, font = self.myfont, wrap = WORD)
-        self.text.insert(0.0, "Text")
+        self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 3, sticky=W)
 
         self.menubar = Menu(self.master)
