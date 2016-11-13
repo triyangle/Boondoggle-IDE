@@ -185,7 +185,7 @@ def text2arr(s):
 
 #error dictionary
 errors = {
-    ("it's",):("if")
+    ("it's",):("if",)
 }
 
 def fixtxterror(arr):
