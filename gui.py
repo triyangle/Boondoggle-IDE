@@ -55,7 +55,7 @@ class Application(Frame):
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
         self.clear_button.grid(row=0, column=2, sticky=W)
 
-        self.correction_checkbox = Checkbutton(self.master, text = "Correction Checking", command = self.correct, font = self.myfont)
+        self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
         self.correction_checkbox.grid(row = 0, column = 3, sticky = W)
 
         self.text = Text(self.master, width=45, height = 25, font = self.myfont, wrap = WORD)
