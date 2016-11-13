@@ -47,21 +47,21 @@ class Application(Frame):
     def create_widgets(self):
         """Creates and grids all of the necessary widgets for the application."""
         self.record_button = Button(self.master, text = "Record", command = self.record_toggle, font = self.myfont)
-        self.record_button.grid(row=0, column=0, sticky=W)
+        self.record_button.grid(row=0, column=0)
 
         self.print_button = Button(self.master, text = "Print", command = self.myprint, font = self.myfont)
-        self.print_button.grid(row=0, column=1, sticky=W)
+        self.print_button.grid(row=0, column=1)
 
         self.clear_button = Button(self.master, text = "Clear", command = self.clear, font = self.myfont)
-        self.clear_button.grid(row=0, column=2, sticky=W)
+        self.clear_button.grid(row=0, column=2)
 
         self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
-        self.correction_checkbox.grid(row = 0, column = 3, sticky = W)
+        self.correction_checkbox.grid(row = 0, column = 3)
 
-        self.text = Text(self.master, width=45, height = 25, font = self.myfont, wrap = WORD)
+        self.text = Text(self.master, width=self.master.winfo_reqwidth()*5//self.myfont['size'], height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
-        self.text.grid(row=1, column=0, columnspan = 3, sticky=W)
-
+        self.text.grid(row=1, column=0, columnspan = 4)
+        print(self.master.winfo_reqwidth())
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
