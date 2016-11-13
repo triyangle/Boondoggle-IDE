@@ -58,7 +58,7 @@ class Application(Frame):
         self.correction_checkbox = Checkbutton(self.master, text = "Autocorrect", command = self.correct, font = self.myfont)
         self.correction_checkbox.grid(row = 0, column = 3)
 
-        self.text = Text(self.master, width=self.master.winfo_reqwidth()*5//self.myfont['size'], height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
+        self.text = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
         self.text.insert(0.0, "")
         self.text.grid(row=1, column=0, columnspan = 4)
         print(self.master.winfo_reqwidth())
@@ -71,6 +71,10 @@ class Application(Frame):
         self.fileMenu.add_command(label="Save as", command=self.save_as)
         self.master.config(menu=self.menubar)
 
+        self.edit_button = Button(self.master, text="Edit", command=self.edit, font=self.myfont)
+        self.edit_button.grid(row=0, column=4)
+        self.text2 = Text(self.master, width=int(self.master.winfo_reqwidth()*2.5//self.myfont['size']), height = self.master.winfo_reqheight()*8//(self.myfont['size']*3)-2, font = self.myfont, wrap = WORD)
+        self.text2.grid(row=1, column=4)
     def create_top_widgets(self):
         """Creates the widgets for the popout menu."""
         self.confirm = Toplevel()
@@ -134,6 +138,11 @@ class Application(Frame):
     def myprint(self):
         """Prints the most recent code and inserts it at the cursor."""
         print(self.code)
+        #self.text.insert(INSERT, self.code)
+        self.text2.insert(0.0, self.code)
+
+    def edit(self):
+        self.code = self.text2.get(0.0, END)
         self.text.insert(INSERT, self.code)
 
     def clear(self):
@@ -207,7 +216,7 @@ def run():
     """Starts the program."""
     root = Tk()
     root.title("Boondoggle IDE")
-    root.geometry("800x800")
+    root.geometry("1600x800")
     app = Application(root)
     # Keyboard shortcut syntax: app.bind_all("n", app.your_method_here)
     root.lift()
