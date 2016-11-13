@@ -193,10 +193,8 @@ def_tree = {
 skip(def_tree, 'a', 'an', 'the')
 
 papa_tree = {
-    'john': "(print 'announcements!)",
-    'jon': "(print 'announcements!)"
 }
-
+all_same(papa_tree,"(print 'announcements!)",'john','johns','jon','jons')
 short_tree = {
     'factorial':"""(define (factorial n)
     (if (< n 2) 1
@@ -211,6 +209,7 @@ short_tree = {
 expr_start_tree = {
     'define': def_tree,     #dict
     'shortcut': short_tree, #dict
+    'shortcuts': short_tree,#dict
     'call': call,           #handler
     'calling': call,        #handler
     'within': infix,        #handler
