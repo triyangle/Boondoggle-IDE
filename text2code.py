@@ -5,11 +5,21 @@ func_params = {'with','parameter','parameters','param','params',
 func_body = {'with','a','the','body','of','to','be','as','following'}
 func_and = {'and','also','then'}
 
+def extract_name(arr):
+    if arr[0] == 'letters':
+        res = letters(arr[1:])
+        return (res[0],res[1]+1)
+    if arr[0] == 'letter':
+        res = letter(arr[1:])
+        return (res[0],res[1]+1)
+    return (arr[0],1)
+
 def def_func(arr, indent):
     code = '(define ('
     i = 0
-    code += arr[i]
-    i+=1
+    name = extract_name(arr)
+    code += name[0]
+    i += name[1]
     while arr[i] in func_params:
         i+=1
     while arr[i] not in func_body:
@@ -40,8 +50,9 @@ var_body = {'with','a','the','body','of','to','be','as','following', 'value'}
 def def_var(arr, indent):
     code = '(define '
     i = 0
-    code += arr[i]+' '
-    i+=1
+    name = extract_name(arr)
+    code += name[0]+' '
+    i += name[1]
     while arr[i] in var_body:
         i+=1
     n_exp = expression(arr[i:], indent)
@@ -123,6 +134,17 @@ def sequence(arr, indent):
             i+=1
     return (code.strip() + ')',i+1)
 
+def letter(arr, indent=None):
+    return (arr[0][0],1)
+
+def letters(arr, indent=None):
+    code = ''
+    i = 0
+    while arr[i] != 'stop':
+        code += arr[i][0]
+        i+=1
+    return (code, i+1)
+
 def skip(d, *strs):
     for s in strs:
         d[s]=d
@@ -173,6 +195,8 @@ expr_start_tree = {
     'if': if_form,          #handler
     'quote': quote,         #handler
     'sequence': sequence,   #handler
+    'letter': letter,       #handler
+    'letters': letters,     #handler
     'one': '1',             #literal
     'zero': '0'             #literal
 }
