@@ -68,11 +68,13 @@ class Application(Frame):
         self.text.grid(row=1, column=0, columnspan = 4)
 
         def tab(arg):
-            print("tab pressed")
             self.text.insert(INSERT, " " * 4)
             return 'break'
 
         self.text.bind("<Tab>", tab)
+
+        def vim_v(arg):
+            self.text.anchor
 
         self.menubar = Menu(self.master)
         self.fileMenu = Menu(self.menubar)
