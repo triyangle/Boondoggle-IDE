@@ -104,6 +104,25 @@ def if_form(arr, indent):
     i += n_exp[1]
     return (code+'    '*indent+')', i)
 
+def quote(arr, _):
+    exp = expression(arr,_)
+    return "'"+exp[0],exp[1]
+
+sequence_of = {'of','containing','with'}
+sequence_and = {'and', 'also', 'the', 'item', 'element'}
+def sequence(arr, indent):
+    code = '('
+    i = 0
+    while arr[i] in sequence_of:
+        i+=1
+    while arr[i] != 'stop':
+        n_exp = expression(arr[i:], indent)
+        code += n_exp[0]+' '
+        i += n_exp[1]
+        while arr[i] in sequence_and:
+            i+=1
+    return (code.strip() + ')',i+1)
+
 def skip(d, *strs):
     for s in strs:
         d[s]=d
@@ -152,6 +171,8 @@ expr_start_tree = {
     'calling': call,        #handler
     'within': infix,        #handler
     'if': if_form,          #handler
+    'quote': quote,         #handler
+    'sequence': sequence,   #handler
     'one': '1',             #literal
     'zero': '0'             #literal
 }
@@ -185,7 +206,7 @@ def text2arr(s):
 
 #error dictionary
 errors = {
-    ("it's",):("if",)
+    ("it's",):("if")
 }
 
 def fixtxterror(arr):
